@@ -4,7 +4,7 @@ import React from "react"
 import renameFile from "../../../utils/renameFile"
 import  unixToFriendly ,{unixToYearSecond} from "../../../utils/unixToFriendly"
 
-export default function Upload({patientId}:{patientId:number}){
+export default function Upload({patientId}:{patientId:string}){
     const id=patientId;
     const [file,setFile]=useState<File>()
     function handleFileChange(e:React.ChangeEvent<HTMLInputElement>){

@@ -1,5 +1,5 @@
 import type Doc from "../../../../../interfaces/Doc"
-import type Patient from "../../../../../interfaces/Patient"
+import type Pd from "../../../../../interfaces/Pd"
 import fs from 'fs'
 import path from 'path';
 import unixToFriendly, { unixToYearSecond } from "../../../../../utils/unixToFriendly";
@@ -12,7 +12,11 @@ export async function GET(
     { params }: { params: { id: string } }
 ) {
     const id = params.id // 'a', 'b', or 'c'
-    const patient:Patient= {Id:`${id}`,name:`${id} name`,description:`${id} des`,docs:[]}
+
+    const detailPath = path.join(process.cwd(), `/public/pd/${id}.json`);
+    //const detail=fsPromises.readFile(detailPath, 'utf8').then((data) => {return JSON.parse(data)}).catch((err) => {console.log(err)}
+    const detail= JSON.parse(await fsPromises.readFile(detailPath, 'utf8'))
+    const patient:Pd= {Id:`${id}`,detail:detail,name:`${id} name`,description:`${id} des`,docs:[]}
     const folderPath = path.join(process.cwd(), `/public/files/${id}`);
     try {
         const files = await fsPromises.readdir(folderPath);
@@ -24,10 +28,6 @@ export async function GET(
         console.error(err);
     }  
     return new Response(JSON.stringify(patient))
-
-
-
-
 }
 
 export async function POST(request: Request,{ params }: { params: { id: string } }) {
@@ -44,4 +44,10 @@ export async function POST(request: Request,{ params }: { params: { id: string }
     console.log(filePath)
     fs.writeFile(filePath, Buffer.from(await file.arrayBuffer()), (err) => {console.log(err)});
     return new Response(JSON.stringify({ message: "success" }))
+
+}
+
+export async function POST(request:Request,{params}:{params:{id:string}}){
+    const id=params.id;
+    const body=
 }
