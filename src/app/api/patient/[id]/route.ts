@@ -13,7 +13,7 @@ export async function GET(
 ) {
     const id = params.id // 'a', 'b', or 'c'
 
-    const detailPath = path.join(process.cwd(), `/public/pd/${id}.json`);
+    const detailPath = path.join(process.cwd(), `/public/patients/${id}.json`);
     //const detail=fsPromises.readFile(detailPath, 'utf8').then((data) => {return JSON.parse(data)}).catch((err) => {console.log(err)}
     const detail= JSON.parse(await fsPromises.readFile(detailPath, 'utf8'))
     const patient:Pd= {Id:`${id}`,detail:detail,name:`${id} name`,description:`${id} des`,docs:[]}
@@ -35,6 +35,8 @@ export async function POST(request: Request,{ params }: { params: { id: string }
     const body = await request.formData()
     const file:File = body.get('file')! as File;
     const doc: Doc = { name: file.name, description:`lastModified: ${unixToYearSecond(file.lastModified)}`, link: `/files/${id}/${file.name}` }  
+    const patientsFiles=await fsPromises.readdir(path.join(process.cwd(), `/public/patients`))
+    const patients=await Promise.all(patientsFiles.map(async (file) => {return JSON.parse(await fsPromises.readFile(path.join(process.cwd(), `/public/patients/${file}`), 'utf8'))}))   
     const patient= patients.find((patient:Patient) => patient.Id === id)!
     patient.docs.push(doc)
     console.log(patients)
@@ -46,8 +48,8 @@ export async function POST(request: Request,{ params }: { params: { id: string }
     return new Response(JSON.stringify({ message: "success" }))
 
 }
-
+/*
 export async function POST(request:Request,{params}:{params:{id:string}}){
     const id=params.id;
     const body=
-}
+}*/
