@@ -1,5 +1,5 @@
-import type Doc from "../../../../interfaces/Doc"
-import type Pd from "../../../../interfaces/Pd"
+import type Pd from "interfaces/Pd"
+import Doc from "interfaces/Doc"
 import fs from 'fs'
 import path from 'path';
 import unixToFriendly, { unixToYearSecond } from "../../../../utils/unixToFriendly";
