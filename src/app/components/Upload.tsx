@@ -4,7 +4,7 @@ import React from "react"
 import renameFile from "../../../utils/renameFile"
 import  unixToFriendly ,{unixToYearSecond} from "../../../utils/unixToFriendly"
 
-export default function Upload({patientId}:{patientId:string}){
+export default function Upload({patientId,fet}:{patientId:string,fet:()=>void}){
     const id=patientId;
     const [file,setFile]=useState<File>()
     function handleFileChange(e:React.ChangeEvent<HTMLInputElement>){
@@ -20,6 +20,12 @@ export default function Upload({patientId}:{patientId:string}){
         fetch("/api/patient/"+id,{
             method:"POST",
             body:formData
+        }).then(res=>res.json())
+        .then(data=>{
+            if(data.message=="success"){
+                alert("success")
+                fet()
+            }
         })     
 
 

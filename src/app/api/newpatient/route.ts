@@ -27,10 +27,11 @@ export async function POST(request:Request,{params}:{params:{id:string}}){
         const jsonData=JSON.stringify(patient)
         await fsPromises.writeFile(filename,jsonData)
         console.log("success")
+        return new Response(JSON.stringify({message:"success",id:id}))
     }
     catch(err){
         console.log(err)
+        return new Response(JSON.stringify({message:"failed"}));
     }
 
-    redirect(`/patient/{id}`)
 }

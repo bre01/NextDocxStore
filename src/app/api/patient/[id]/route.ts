@@ -22,7 +22,7 @@ export async function GET(
         const files = await fsPromises.readdir(folderPath);
         for (const file of files)
           console.log(file);
-        const res=files.map((file) => {patient.docs.push({name:file,description:file+`the des`,link:`/emptytables/${file}`})})
+        const res=files.map((file) => {patient.docs.push({name:file,description:"the descript",link:`/files/${id}/${file}`})})
       } 
     catch (err) {
         console.error(err);

@@ -4,17 +4,19 @@ import Image from "next/image";
 import EmptyTables from "../components/EmptyTables";
 import { useState } from "react";
 import type Pd from "../../../interfaces/Pd";
+import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 export default function NewPatientPage() {
-
+    const router=useRouter();
     const [formData, setFormData] = useState({
         name: '',
         gender: '0',
         child: '0',
         text: '',
     });
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
+    const handleInputChange = (event:React.ChangeEvent) => {
+        const { name, value } = event.target as HTMLInputElement | HTMLSelectElement;
         // Update the state with the new value
         setFormData({
             ...formData,
@@ -23,12 +25,21 @@ export default function NewPatientPage() {
     };
 
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         fetch("/api/newpatient", {
             method: "POST",
             body: JSON.stringify(formData)
-        })
+        }).then((res) => res.json()).then(async (data) => {
+            if (data.message=="success") {
+                console.log("redirect");
+                router.push("/patient/"+data.id);
+            }
+            else if(data.message=="failed"){
+                console.log("failed");
+                alert("try again");
+            }
+        });
     };
 
 
