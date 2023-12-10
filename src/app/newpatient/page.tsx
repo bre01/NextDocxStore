@@ -48,14 +48,16 @@ export default function NewPatientPage() {
     return (
         <>
             <form onSubmit={handleSubmit}>
-                <input
+                <input className="input input-bordered w-full max-w-xs"
                     name="name"
                     placeholder="name"
                     value={formData.name}
                     onChange={handleInputChange}
                 />
                 <div id="patientDetail" style={{ backgroundColor: 'Red' }}>
-                    <select
+
+
+                    <select className="select select-bordered w-full max-w-xs"
                         name="gender"
                         value={formData.gender}
                         onChange={handleInputChange}
@@ -63,7 +65,7 @@ export default function NewPatientPage() {
                         <option value="0">男</option>
                         <option value="1">女</option>
                     </select>
-                    <select
+                    <select className="select select-bordered w-full max-w-xs"
                         name="child"
                         value={formData.child}
                         onChange={handleInputChange}
@@ -72,7 +74,7 @@ export default function NewPatientPage() {
                         <option value="1">儿童</option>
                     </select>
                     <div>
-                        <textarea
+                        <textarea className="textarea textarea-bordered"
                             name="text"
                             placeholder="请输入病情描述"
                             value={formData.text}
@@ -80,7 +82,7 @@ export default function NewPatientPage() {
                         ></textarea>
                     </div>
                 </div>
-                <button type="submit">Submit</button>
+                <button className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" type="submit">Submit</button>
             </form>
 
 
