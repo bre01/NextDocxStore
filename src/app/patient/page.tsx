@@ -1,8 +1,10 @@
 "use client"
 import React, { useState } from "react";
 import type Patient from "interfaces/Patient"
+import type PatientBasic from "interfaces/PatientBasic"
+import IdAndDocsPatient from "interfaces/IdAndDocsPatient";
 export default function Patient() {
-    const [patients, setPatients] = useState<Array<any>>();
+    const [patients, setPatients] = useState<Array<IdAndDocsPatient>>();
     const [query, setQuery] = useState<string>("")
     const onChangeHandle = (event: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(event.target.value)
@@ -17,6 +19,7 @@ export default function Patient() {
                     alert("try agagin")
                 }
                 else {
+                    console.log(data.filtered)
                     console.log("suc")
                     setPatients(data.filtered)
                     console.log(patients)
@@ -33,8 +36,19 @@ export default function Patient() {
                 </div>
                 <input value={query} onChange={onChangeHandle} type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
                 {patients && patients.length ?
-                    patients.map((patient, index) => { return (<div key={index}>{patient}</div>) }) :
-                    <div>no data</div>}
+                    patients.map((patient, index) => {
+                        return (
+                            <>
+                                <div key={index}>
+                                    <div><span>{patient.Id}</span><span>{patient.gender}</span></div>
+                                    <div><span>{patient.age}</span><span>{patient.address}</span></div>
+                                </div>
+                            </>
+                        )
+                    }) 
+                    :
+                    <div>no data</div>
+                }
                 <button onClick={submitHandle}>submit </button>
 
             </label>

@@ -15,6 +15,9 @@ export default function NewPatientPage() {
         gender: '0',
         child: '0',
         info: {basic:"",history:"",recovery:"",other:"",children:"",old:""},
+        number:"",
+        age:"",
+        address:"",
     });
     const reducer=(state:NoIdPatient,action:React.ChangeEvent<HTMLInputElement>)=>{
         return {...state,[action.target.name]:action.target.value}
@@ -69,12 +72,36 @@ export default function NewPatientPage() {
         <>
         <div >
             <form onSubmit={handleSubmit} >
+            <div className="">
+                <div className="" >
                 <input className=" input input-bordered w-full max-w-xs m-3"
                     name="name"
-                    placeholder="name"
+                    placeholder="姓名"
                     value={formData.name}
                     onChange={handleInputChange}
                 />
+                <input className=" input input-bordered w-full max-w-xs m-3"
+                    name="age"
+                    placeholder="年龄"
+                    value={formData.age}
+                    onChange={handleInputChange}
+                />
+                </div>
+                <div>
+                <input className=" input input-bordered w-full max-w-xs m-3"
+                    name="number"
+                    placeholder="电话号码"
+                    value={formData.number}
+                    onChange={handleInputChange}
+                />
+                <input className=" input input-bordered w-full max-w-xs m-3"
+                    name="address"
+                    placeholder="地址"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                />
+                </div>
+            </div>
                 <div id="patientDetail" className="">
 
                     <select className="select select-bordered w-full max-w-xs m-3 inline-block"

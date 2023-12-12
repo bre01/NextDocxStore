@@ -5,6 +5,8 @@ import path from 'path';
 import unixToFriendly, { unixToYearSecond } from "utils/unixToFriendly";
 import {promises as fsPromises} from 'fs';
 import { NextRequest } from "next/server";
+import PatientBaisc from "interfaces/PatientBasic";
+import IdAndDocsPatient from "interfaces/IdAndDocsPatient";
 
 
 
@@ -21,11 +23,15 @@ export async function GET(
         const res=files.map((file) => {return{name:file,link:`/emptytables/${file}`}})
         //const filtered=await files.filter(async file=>fileterPatient(file,query!))
 
-        const filterBool=await Promise.all(files.map(async file=>{return {file,filterB:await fileterPatient(file,query!)}}))
+        const filterBool=await Promise.all(files.map(async file=>
+            {
+            const {patient,filterB}:{patient:IdAndDocsPatient,filterB:boolean}=await fileterPatient(file,query!)
+            return {patient,filterB}
+        }))
         
         
-        const filtered=filterBool.filter(file=>file.filterB==true).map(file=>file.file)
-
+        const filtered=filterBool.filter(file=>file.filterB==true).map(file=>file.patient)
+        
         console.log("-----------")
         console.log(filtered)
         console.log("-----------")
@@ -40,13 +46,13 @@ export async function GET(
 const fileterPatient=async (file:string,query:string)=>{
     
     const newPath = path.join(process.cwd(), `/public/patients/`);
-    const detail= await JSON.parse(await fsPromises.readFile(newPath+file, 'utf8'))
-    if(detail.name.includes(query) ){
+    const patient:IdAndDocsPatient= await JSON.parse(await fsPromises.readFile(newPath+file, 'utf8'))
+    if(patient.name.includes(query) ){
         console.log("true")
-        return true;
+        return {patient,filterB:true};
     }
     else{
-        return false;
+        return {patient,filterB:false};
     }
 
 }
