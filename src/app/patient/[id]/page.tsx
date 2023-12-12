@@ -8,13 +8,14 @@ import { useState } from "react"
 import PatientInfo from "@/app/components/PatientInfo"
 import Upload from "@/app/components/Upload"
 import EmptyTables from "@/app/components/EmptyTables"
+import IdAndDocsPatient from "interfaces/IdAndDocsPatient"
 export default function Patient() {
     const id = useParams().id
-    const [patient, setPatient] = useState<Patient>()
+    const [patient, setPatient] = useState<IdAndDocsPatient>()
     const fetchPatient = () => {
         fetch("/api/patient/" + id)
             .then((res) => res.json())
-            .then((data) => {
+            .then((data:IdAndDocsPatient) => {
                 console.log(data);
                 setPatient(data);
             })
@@ -74,13 +75,13 @@ export default function Patient() {
                     <div className="join join-vertical w-full">
                         {patient.docs.length ? patient.docs.map((doc, index) => {
                             return (<><div className="collapse collapse-arrow join-item border border-base-300">
-                                <div  className="collapse-title text-xl font-medium" ><span>{doc.name}</span> <span><a key={index} href={doc.link}>Click to download</a></span></div>
+                                <div  className="collapse-title text-xl font-medium" ><span>{doc.name}</span> <span><a key={index} href={doc.link}>点击下载</a></span></div>
                                 <div className="collapse-content">{doc.description}</div>
                             </div></>)
                         }) : "No docs"}
                     </div>
                     <Upload patientId={patient.Id} fet={fetchPatient}></Upload>
-                    <EmptyTables></EmptyTables>
+                    <EmptyTables ></EmptyTables>
 
                 </div>
 

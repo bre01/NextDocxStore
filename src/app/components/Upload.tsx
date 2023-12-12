@@ -39,11 +39,11 @@ export default function Upload({ patientId, fet }: { patientId: string, fet: () 
 
     return (
         <>
-            <form onSubmit={handleFileSubmit}>
+            <form onSubmit={handleFileSubmit} className="m-3">
                 请上传完成的评估量表
                 <label className="form-control w-full max-w-xs">
                     <div className="label">
-                        <span className="label-text">选择一个文件</span>
+                        <span className="label-text ">选择一个文件</span>
                         <span className="label-text-alt">接收Docx,Excel等修改后的样表文件</span>
                     </div>
                     <input type="file" onChange={handleFileChange} className="file-input file-input-bordered w-full max-w-xs" />
