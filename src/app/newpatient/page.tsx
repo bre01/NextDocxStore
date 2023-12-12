@@ -16,12 +16,31 @@ export default function NewPatientPage() {
         child: '0',
         info: {basic:"",history:"",recovery:"",other:"",children:"",old:""},
     });
+    const reducer=(state:NoIdPatient,action:React.ChangeEvent<HTMLInputElement>)=>{
+        return {...state,[action.target.name]:action.target.value}
+    }
+    //the reducer is not uesed but should be adapted later
+
+
+
+    
+
+
+        
     const handleInputChange = (event: React.ChangeEvent) => {
         const { name, value } = event.target as HTMLInputElement | HTMLSelectElement;
         // Update the state with the new value
         setFormData({
             ...formData,
             [name]: value,
+        });
+    };
+    const handleInFoChange = (event: React.ChangeEvent) => {
+        const { name, value } = event.target as HTMLInputElement | HTMLSelectElement;
+        // Update the state with the new value
+        setFormData({
+            ...formData,
+            info:{...formData.info,[name]: value},
         });
     };
 
@@ -77,42 +96,42 @@ export default function NewPatientPage() {
                     </select>
                     <div className="m-3 ">
                         <textarea className="textarea textarea-bordered inline-block h-96 w-1/2"
-                            name="text"
+                            name="basic"
                             placeholder="请输入病情描述"
                             value={formData.info.basic}
-                            onChange={handleInputChange}
+                            onChange={handleInFoChange}
                         ></textarea>
                         <textarea className="textarea textarea-bordered inline-block h-96 w-1/2"
-                            name="text"
+                            name="history"
                             placeholder="既往病史和过敏症状"
                             value={formData.info.history}
-                            onChange={handleInputChange}
+                            onChange={handleInFoChange}
                         ></textarea>
                         <textarea className="textarea textarea-bordered inline-block h-96 w-1/2"
-                            name="text"
+                            name="recovery"
                             placeholder="请输入康复描述"
                             value={formData.info.recovery}
-                            onChange={handleInputChange}
+                            onChange={handleInFoChange}
                         ></textarea>
                         <textarea className="textarea textarea-bordered inline-block h-96 w-1/2"
-                            name="text"
+                            name="other"
                             placeholder="其他信息补充"
                             value={formData.info.other}
-                            onChange={handleInputChange}
+                            onChange={handleInFoChange}
                         ></textarea>
                         {formData.child=="1"?
                         <textarea className="textarea textarea-bordered inline-block h-96 w-1/2"
-                            name="text"
+                            name="children"
                             placeholder="儿童信息"
-                            value={formData.info.other}
-                            onChange={handleInputChange}
+                            value={formData.info.children}
+                            onChange={handleInFoChange}
                         ></textarea>:<></>}
                         {formData.child=="2"? 
                         <textarea className="textarea textarea-bordered inline-block h-96 w-1/2"
-                            name="text"
+                            name="old"
                             placeholder="老人信息"
-                            value={formData.info.other}
-                            onChange={handleInputChange}
+                            value={formData.info.old}
+                            onChange={handleInFoChange}
                         ></textarea>:<></>}
                     </div>
                 </div>
